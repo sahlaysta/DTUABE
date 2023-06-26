@@ -181,15 +181,18 @@ namespace Sahlaysta.DTUABE
 
                         List<string> lines = File.ReadAllLines(modAssetFilePath).ToList();
                         byte[] fontData = File.ReadAllBytes(filePath);
-                        int vectorIndex = lines.FindIndex(x => x.Trim() == "1 vector m_FontData");
+                        int vectorIndex = lines.FindIndex(
+                            x => x.Trim() == "0 vector m_FontData" || x.Trim() == "1 vector m_FontData");
+                        int vectorNum = int.Parse(char.ToString(lines[vectorIndex].Trim()[0]));
+                        int arrayNum = int.Parse(char.ToString(lines[vectorIndex + 1].Trim()[0]));
                         int leadingSpaces = lines[vectorIndex].IndexOf(lines[vectorIndex].TrimStart(' '));
                         int vectorSize = int.Parse(lines[vectorIndex + 2].Trim().Substring(13));
                         lines.RemoveRange(vectorIndex, (vectorSize * 2) + 3);
                         int insertIndex = vectorIndex;
                         lines.Insert(insertIndex++, new string(' ', leadingSpaces + 0)
-                            + "1 vector m_FontData");
+                            + vectorNum + " vector m_FontData");
                         lines.Insert(insertIndex++, new string(' ', leadingSpaces + 1)
-                            + "1 Array Array (" + fontData.Length + " items)");
+                            + arrayNum + " Array Array (" + fontData.Length + " items)");
                         lines.Insert(insertIndex++, new string(' ', leadingSpaces + 2)
                             + "0 int size = " + fontData.Length);
                         for (int i = 0; i < fontData.Length; i++)
@@ -319,9 +322,10 @@ namespace Sahlaysta.DTUABE
             {
                 try
                 {
-                    if (currentLine.Trim() == "1 vector m_FontData")
+                    if (currentLine.Trim() == "0 vector m_FontData"
+                        || currentLine.Trim() == "1 vector m_FontData")
                     {
-                        nextLineValidate(true, "1 Array Array \\([0-9]{1,} items\\)");
+                        nextLineValidate(true, "(0|1) Array Array \\([0-9]{1,} items\\)");
                         string arraySizeLine = nextLineValidate(true, "0 int size = [0-9]{1,}");
                         int arraySize = int.Parse(arraySizeLine.Substring(13));
                         var fontData = new byte[arraySize];
