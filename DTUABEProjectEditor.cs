@@ -27,11 +27,11 @@ namespace Sahlaysta.DTUABE
             if (!Directory.Exists(dllDir))
                 throw new ArgumentException("Directory not found: " + dllDir);
 
-            string ildasmExe = Path.Combine(Path.GetFullPath("IL"), "ildasm", "ildasm.exe");
+            string ildasmExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IL", "ildasm", "ildasm.exe");
             if (!File.Exists(ildasmExe))
                 throw new ArgumentException("File not found: " + ildasmExe);
 
-            string autouabeExe = Path.Combine(Path.GetFullPath("AutoUABE"), "AssetBundleExtractor.exe");
+            string autouabeExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AutoUABE", "AssetBundleExtractor.exe");
             if (!File.Exists(autouabeExe))
                 throw new ArgumentException("File not found: " + autouabeExe);
 
@@ -102,11 +102,11 @@ namespace Sahlaysta.DTUABE
             if (!originalAssetFilePaths.Any(x => Path.GetFileName(x) == "globalgamemanagers.assets"))
                 throw new ArgumentException("Asset not found: globalgamemanagers.assets");
 
-            string ilasmExe = Path.Combine(Path.GetFullPath("IL"), "ilasm", "ilasm.exe");
+            string ilasmExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IL", "ilasm", "ilasm.exe");
             if (!File.Exists(ilasmExe))
                 throw new ArgumentException("File not found: " + ilasmExe);
 
-            string autouabeExe = Path.Combine(Path.GetFullPath("AutoUABE"), "AssetBundleExtractor.exe");
+            string autouabeExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AutoUABE", "AssetBundleExtractor.exe");
             if (!File.Exists(autouabeExe))
                 throw new ArgumentException("File not found: " + autouabeExe);
 
