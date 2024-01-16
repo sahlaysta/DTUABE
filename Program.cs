@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -228,11 +228,23 @@ namespace Sahlaysta.DTUABE
             if (filePath.EndsWith(".assets") || filePath.EndsWith(".resource") || filePath.EndsWith(".resS"))
                 return true;
             string fileName = Path.GetFileName(filePath);
-            if (fileName.StartsWith("level") && fileName.Substring(5).All(char.IsDigit))
+            if (fileName.StartsWith("level") && fileName.Substring(5).All(isDigit))
+                return true;
+            if (fileName.Length == 32 && fileName.All(isAlphanumeric))
                 return true;
             if (fileName == "globalgamemanagers")
                 return true;
             return false;
+        }
+
+        private static bool isDigit(char ch)
+        {
+            return ch >= '0' && ch <= '9';
+        }
+
+        private static bool isAlphanumeric(char ch)
+        {
+            return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9');
         }
 
     }
