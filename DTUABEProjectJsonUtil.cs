@@ -205,7 +205,6 @@ namespace Sahlaysta.DTUABE
 
         private static void sortUabeStringJsonObjects(List<UabeStringJsonObject> uabeStringJsonObjects)
         {
-            uabeStringJsonObjects.Sort((a, b) => a.Line.CompareTo(b.Line));
             uabeStringJsonObjects.Sort(compareUabeStringJsonObjects);
         }
 
@@ -219,6 +218,8 @@ namespace Sahlaysta.DTUABE
             string containerAssetFileNameB;
             ulong assetIdA;
             ulong assetIdB;
+            ulong lineA = uabeStringJsonObjectA.Line;
+            ulong lineB = uabeStringJsonObjectB.Line;
             parseAssetFileName(assetFileNameA, out containerAssetFileNameA, out assetIdA);
             parseAssetFileName(assetFileNameB, out containerAssetFileNameB, out assetIdB);
             if (containerAssetFileNameA.StartsWith("level")
@@ -232,7 +233,15 @@ namespace Sahlaysta.DTUABE
                     ulong numericValueA = ulong.Parse(numericPartA);
                     ulong numericValueB = ulong.Parse(numericPartB);
                     int compare = numericValueA.CompareTo(numericValueB);
-                    return compare == 0 ? assetIdA.CompareTo(assetIdB) : compare;
+                    if (compare == 0)
+                    {
+                        int assetIdCompare = assetIdA.CompareTo(assetIdB);
+                        return assetIdCompare == 0 ? lineA.CompareTo(lineB) : assetIdCompare;
+                    }
+                    else
+                    {
+                        return compare;
+                    }
                 }
             }
             if (containerAssetFileNameA.StartsWith("sharedassets")
@@ -250,11 +259,27 @@ namespace Sahlaysta.DTUABE
                     ulong numericValueA = ulong.Parse(numericPartA);
                     ulong numericValueB = ulong.Parse(numericPartB);
                     int compare = numericValueA.CompareTo(numericValueB);
-                    return compare == 0 ? assetIdA.CompareTo(assetIdB) : compare;
+                    if (compare == 0)
+                    {
+                        int assetIdCompare = assetIdA.CompareTo(assetIdB);
+                        return assetIdCompare == 0 ? lineA.CompareTo(lineB) : assetIdCompare;
+                    }
+                    else
+                    {
+                        return compare;
+                    }
                 }
             }
             int strCompare = String.Compare(containerAssetFileNameA, containerAssetFileNameB);
-            return strCompare == 0 ? assetIdA.CompareTo(assetIdB) : strCompare;
+            if (strCompare == 0)
+            {
+                int assetIdCompare = assetIdA.CompareTo(assetIdB);
+                return assetIdCompare == 0 ? lineA.CompareTo(lineB) : assetIdCompare;
+            }
+            else
+            {
+                return strCompare;
+            }
         }
 
         private static void parseAssetFileName(
