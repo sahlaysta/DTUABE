@@ -216,7 +216,7 @@ namespace Sahlaysta.DTUABE
                 Path.GetDirectoryName(unityGameExeFilePath), unityGameDataDirName);
             if (!Directory.Exists(unityGameDataDir))
                 throw new ArgumentException("Directory not found: " + unityGameDataDir);
-            unityGameAssetFilePaths = Directory.GetFiles(unityGameDataDir).Where(isUnityAssetFilePath);
+            unityGameAssetFilePaths = Directory.GetFiles(unityGameDataDir).Where(isUnityAssetFilePath).OrderBy(x => x);
 
             unityGameDllDir = Path.Combine(unityGameDataDir, "Managed");
             if (!Directory.Exists(unityGameDllDir))
