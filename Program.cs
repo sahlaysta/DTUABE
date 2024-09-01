@@ -154,6 +154,9 @@ namespace Sahlaysta.DTUABE
                 throw new ArgumentException(
                     "Can only create project in empty directory. (Use --force to force)");
 
+            projectDir = Path.GetFullPath(projectDir);
+            unityGameExeFilePath = Path.GetFullPath(unityGameExeFilePath);
+
             string unityGameDataDir;
             IEnumerable<string> unityGameAssetFilePaths;
             string unityGameDllDir;
@@ -168,6 +171,9 @@ namespace Sahlaysta.DTUABE
         {
             if (!Directory.Exists(projectDir))
                 throw new ArgumentException("Directory not found: " + projectDir);
+
+            projectDir = Path.GetFullPath(projectDir);
+            
             DTUABEProjectEditor.ReorderProjectUabeStrings(
                 projectDir,
                 new HashSet<string>(precedeNames.Split('|')));
@@ -184,6 +190,10 @@ namespace Sahlaysta.DTUABE
                 throw new ArgumentException("File not found: " + originalUnityGameExeFilePath);
             if (!File.Exists(modUnityGameExeFilePath))
                 throw new ArgumentException("File not found: " + modUnityGameExeFilePath);
+
+            projectDir = Path.GetFullPath(projectDir);
+            originalUnityGameExeFilePath = Path.GetFullPath(originalUnityGameExeFilePath);
+            modUnityGameExeFilePath = Path.GetFullPath(modUnityGameExeFilePath);
 
             string originalUnityGameDataDir;
             IEnumerable<string> originalUnityGameAssetFilePaths;
